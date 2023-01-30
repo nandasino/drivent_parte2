@@ -28,12 +28,25 @@ async function postTicket(ticket: TicketParams) {
   });
 }
 
+async function findTicketById(ticketId: number) {
+  return prisma.ticket.findFirst({
+    where: {
+      id: ticketId,
+    },
+    include: {
+      Enrollment: true, 
+    }
+  });
+}
+
+
 export type TicketParams = Omit<Ticket, "id" | "createdAt" | "updatedAt">   
 
 const ticketRepository = {
   findTicketTypes,
   findTicketByEnrollment,
-  postTicket
+  postTicket,
+  findTicketById
 };
 
 export default ticketRepository;
